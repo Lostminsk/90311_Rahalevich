@@ -11,8 +11,6 @@
 
 </head>
 <body>
-   
-
 
     <header style="border:1px dotted red">
         <div class="container">
@@ -149,9 +147,10 @@
                 </div>
             </div>
         </div>
-
+       
     </footer>
 
+   
 
 
 
@@ -164,9 +163,8 @@
 
 
 
-
-    <script src="lib/jquery/dist/jquery.js"></script>
-    <script src="lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+            <script src="lib/jquery/dist/jquery.js"></script>
+            <script src="lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
 
 </body>
 </html>
