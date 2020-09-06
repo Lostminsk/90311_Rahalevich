@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
 
 namespace _90311_Rahalevich.Areas.Identity.Pages.Account
 {
@@ -28,8 +29,8 @@ namespace _90311_Rahalevich.Areas.Identity.Pages.Account
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            ILogger<RegisterModel> logger)
+        //IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -61,6 +62,7 @@ namespace _90311_Rahalevich.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+            public IFormFile Avatar { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -76,6 +78,16 @@ namespace _90311_Rahalevich.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                if (Input.Avatar != null)
+                {
+                    user.AvatarImage = new byte[(int)Input.Avatar.Length];
+                    await Input.Avatar
+                    .OpenReadStream()
+                    .ReadAsync(
+                    user.AvatarImage,
+                    0,
+                    (int)Input.Avatar.Length);
+                }
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

@@ -7,5 +7,6 @@ namespace _90311_Rahalevich.DAL.Entities
 {
     public class ApplicationUser: IdentityUser
     {
+        public byte[] AvatarImage { get; set; }
     }
 }
