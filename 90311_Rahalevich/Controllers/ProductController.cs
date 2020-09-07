@@ -9,16 +9,21 @@ namespace _90311_Rahalevich.Controllers
 {
     public class ProductController : Controller
     {
-        List<Insulin> _insulins;
+        public List<Insulin> _insulins;
         List<InsulinGroup> _insulinGroups;
-
+        int _pageSize;
         public ProductController()
         {
+            _pageSize = 3;
             SetupData();
         }
-        public IActionResult Index()
+        public IActionResult Index(int pageNo = 1)
         {
-            return View(_insulins);
+            var items = _insulins
+           .Skip((pageNo - 1) * _pageSize)
+           .Take(_pageSize)
+           .ToList();
+            return View(items);
         }
         /// <summary>
         /// Инициализация списков
@@ -27,12 +32,12 @@ namespace _90311_Rahalevich.Controllers
         {
             _insulinGroups = new List<InsulinGroup>
             {
-                new InsulinGroup {InsulinGroupId=1, GroupName="Adventure"},
-                new InsulinGroup {InsulinGroupId=2, GroupName="Action"},
-                new InsulinGroup {InsulinGroupId=3, GroupName="Shooter"},
-                new InsulinGroup {InsulinGroupId=4, GroupName="RPG"},
-                new InsulinGroup {InsulinGroupId=5, GroupName="Simulator"},
-                new InsulinGroup {InsulinGroupId=6, GroupName="Strategy"}
+                new InsulinGroup {InsulinGroupId=1, GroupName="Fast"},
+                new InsulinGroup {InsulinGroupId=2, GroupName="Very fast"},
+                new InsulinGroup {InsulinGroupId=3, GroupName="Long"},
+                new InsulinGroup {InsulinGroupId=4, GroupName="Very long"},
+                new InsulinGroup {InsulinGroupId=5, GroupName="Slow"},
+                new InsulinGroup {InsulinGroupId=6, GroupName="Normal"}
             };
             _insulins = new List<Insulin>
             {
