@@ -23,7 +23,7 @@ namespace _90311_Rahalevich.Tests
         //    // Assert
         //    Assert.NotNull(model);
         //    Assert.Equal(qty, model.Count);
-        //    Assert.Equal(id, model[0].GameId);
+        //    Assert.Equal(id, model[0].InsulinId);
         //}
         [Fact]
         public void ControllerSelectsGroup()

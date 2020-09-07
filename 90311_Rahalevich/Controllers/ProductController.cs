@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using _90311_Rahalevich.DAL.Entities;
+using _90311_Rahalevich.Models;
 
 namespace _90311_Rahalevich.Controllers
 {
@@ -17,13 +18,15 @@ namespace _90311_Rahalevich.Controllers
             _pageSize = 3;
             SetupData();
         }
-        public IActionResult Index(int pageNo = 1)
+        public IActionResult Index(int? group, int pageNo = 1)
         {
-            var items = _insulins
-           .Skip((pageNo - 1) * _pageSize)
-           .Take(_pageSize)
-           .ToList();
-            return View(items);
+            var gamesFiltered = _insulins.Where(d => !group.HasValue || d.InsulinGroupId == group.Value);
+            ViewData["Groups"] = _insulinGroups;
+            // Поместить список групп во ViewData
+            ViewData["Groups"] = _insulinGroups;
+            // Получить id текущей группы и поместить в TempData
+            ViewData["CurrentGroup"] = group ?? 0;
+            return View(ListViewModel<Insulin>.GetModel(gamesFiltered, pageNo, _pageSize));
         }
         /// <summary>
         /// Инициализация списков
