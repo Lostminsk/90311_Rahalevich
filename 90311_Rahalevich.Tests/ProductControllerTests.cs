@@ -5,6 +5,8 @@ using _90311_Rahalevich.DAL.Entities;
 using Xunit;
 using System;
 using System.Text;
+using Microsoft.AspNetCore.Http;
+using Moq;
 
 namespace _90311_Rahalevich.Tests
 {
@@ -28,17 +30,15 @@ namespace _90311_Rahalevich.Tests
         [Fact]
         public void ControllerSelectsGroup()
         {
-            //arrange
-            var controller = new ProductController();
-            var data = TestData.GetInsulinsList();
-            controller._insulins = data;
-            var comparer = Comparer<Insulin>.GetComparer((d1, d2) => d1.InsulinId.Equals(d2.InsulinId));
-            //act
-            var result = controller.Index(2) as ViewResult;
-            var model = result.Model as List<Insulin>;
-            //assert
-            Assert.Equal(2, model.Count);
-            Assert.Equal(data[2], model[0], comparer);
+            // Контекст контроллера
+            var controllerContext = new ControllerContext();
+            // Макет HttpContext
+            var moqHttpContext = new Mock<HttpContext>();
+            moqHttpContext.Setup(c => c.Request.Headers).Returns(new HeaderDictionary());
+
+            controllerContext.HttpContext = moqHttpContext.Object;
+            var controller = new ProductController()
+            { ControllerContext = controllerContext };
         }
 
     }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using _90311_Rahalevich.DAL.Entities;
 using _90311_Rahalevich.Models;
+using _90311_Rahalevich.Extensions;
 
 namespace _90311_Rahalevich.Controllers
 {
@@ -18,15 +19,23 @@ namespace _90311_Rahalevich.Controllers
             _pageSize = 3;
             SetupData();
         }
+        [Route("Catalog")]
+        [Route("Catalog/Page_{pageNo}")]
+
         public IActionResult Index(int? group, int pageNo = 1)
         {
-            var gamesFiltered = _insulins.Where(d => !group.HasValue || d.InsulinGroupId == group.Value);
+            var insulinsFiltered = _insulins.Where(d => !group.HasValue || d.InsulinGroupId == group.Value);
             ViewData["Groups"] = _insulinGroups;
             // Поместить список групп во ViewData
             ViewData["Groups"] = _insulinGroups;
             // Получить id текущей группы и поместить в TempData
             ViewData["CurrentGroup"] = group ?? 0;
-            return View(ListViewModel<Insulin>.GetModel(gamesFiltered, pageNo, _pageSize));
+
+            var model = ListViewModel<Insulin>.GetModel(insulinsFiltered, pageNo, _pageSize);
+            if (Request.IsAjaxRequest())
+                return PartialView("_listpartial", model);
+            else
+                return View(model);
         }
         /// <summary>
         /// Инициализация списков

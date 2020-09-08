@@ -26,7 +26,11 @@
         </div><!-- container - конец -->
     </header><!-- header - конец -->
 
-    @RenderBody()
+    @*Для корректной разметки в катологе*@
+
+    <div class="container">
+        @RenderBody()
+    </div>
 
     <footer class="fixed-bottom">
         <div class="container">

@@ -22,11 +22,11 @@ namespace _90311_Rahalevich.Controllers
         public async Task<FileResult> GetAvatar()
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user.AvatarImage != null)
+            if (user?.AvatarImage != null)
                 return File(user.AvatarImage, "image/...");
             else
             {
-                var avatarPath = "/Images/anonymous.png";
+                var avatarPath = "/Images/avatar.jpg";
 
                 return File(_env.WebRootFileProvider
                 .GetFileInfo(avatarPath)
