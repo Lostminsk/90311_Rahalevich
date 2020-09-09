@@ -6,28 +6,28 @@ using Microsoft.AspNetCore.Mvc;
 using _90311_Rahalevich.DAL.Entities;
 using _90311_Rahalevich.Models;
 using _90311_Rahalevich.Extensions;
+using _90311_Rahalevich.DAL.Data;
 
 namespace _90311_Rahalevich.Controllers
 {
     public class ProductController : Controller
     {
-        public List<Insulin> _insulins;
-        List<InsulinGroup> _insulinGroups;
+        ApplicationDbContext _context;
         int _pageSize;
-        public ProductController()
+        public ProductController(ApplicationDbContext context)
         {
             _pageSize = 3;
-            SetupData();
+            _context = context;
         }
         [Route("Catalog")]
         [Route("Catalog/Page_{pageNo}")]
-
         public IActionResult Index(int? group, int pageNo = 1)
         {
-            var insulinsFiltered = _insulins.Where(d => !group.HasValue || d.InsulinGroupId == group.Value);
-            ViewData["Groups"] = _insulinGroups;
+            var insulinsFiltered = _context.Insulins.Where(d => !group.HasValue || d.InsulinGroupId == group.Value);
+
             // Поместить список групп во ViewData
-            ViewData["Groups"] = _insulinGroups;
+            ViewData["Groups"] = _context.InsulinGroups;
+
             // Получить id текущей группы и поместить в TempData
             ViewData["CurrentGroup"] = group ?? 0;
 
@@ -36,31 +36,7 @@ namespace _90311_Rahalevich.Controllers
                 return PartialView("_listpartial", model);
             else
                 return View(model);
-        }
-        /// <summary>
-        /// Инициализация списков
-        /// </summary>
-        private void SetupData()
-        {
-            _insulinGroups = new List<InsulinGroup>
-            {
-                new InsulinGroup {InsulinGroupId=1, GroupName="Fast"},
-                new InsulinGroup {InsulinGroupId=2, GroupName="Very fast"},
-                new InsulinGroup {InsulinGroupId=3, GroupName="Long"},
-                new InsulinGroup {InsulinGroupId=4, GroupName="Very long"},
-                new InsulinGroup {InsulinGroupId=5, GroupName="Slow"},
-                new InsulinGroup {InsulinGroupId=6, GroupName="Normal"}
-            };
-            _insulins = new List<Insulin>
-            {
-                new Insulin { InsulinId = 1, InsulinName = "Novorapid", Publisher = "NovoNordisk", Rating = 8, InsulinGroupId = 1, Image = "novorapid.jpg" },
-                new Insulin { InsulinId = 2, InsulinName = "Fiasp", Publisher = "NovoNordisk", Rating = 7, InsulinGroupId = 2, Image = "fiasp.jpg" },
-                new Insulin { InsulinId = 3, InsulinName = "Levemir", Publisher = "NovoNordisk", Rating = 6, InsulinGroupId = 3, Image = "levemir.jpg" },
-                new Insulin { InsulinId = 4, InsulinName = "Tresiba", Publisher = "NovoNordisk", Rating = 9, InsulinGroupId = 4, Image = "tresiba.jpg" },
-                new Insulin { InsulinId = 5, InsulinName = "Apidra", Publisher = "Sanofi", Rating = 10, InsulinGroupId = 2, Image = "apidra.jpg" },
-                new Insulin { InsulinId = 6, InsulinName = "Lantus", Publisher = "Sanofi", Rating = 6, InsulinGroupId = 5, Image = "lantus.jpg" },
-                new Insulin { InsulinId = 7, InsulinName = "Tudgeo", Publisher = "Sanofi", Rating = 9, InsulinGroupId = 6, Image = "tudgeo.jpg" }
-            };
+           
+            }
         }
     }
-}

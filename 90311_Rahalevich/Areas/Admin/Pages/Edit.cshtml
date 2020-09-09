@@ -1,0 +1,75 @@
+﻿@page "{id:int}"
+@model _90311_Rahalevich.Areas.Admin.Pages.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Insulin</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Insulin.InsulinId" />
+
+            <div class="form-group">
+                <label asp-for="Insulin.InsulinName" class="control-label"></label>
+                <input asp-for="Insulin.InsulinName" class="form-control" />
+                <span asp-validation-for="Insulin.InsulinName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Insulin.Publisher" class="control-label"></label>
+                <input asp-for="Insulin.Publisher" class="form-control" />
+                <span asp-validation-for="Insulin.Publisher" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Insulin.Rating" class="control-label"></label>
+                <input asp-for="Insulin.Rating" class="form-control" />
+                <span asp-validation-for="Insulin.Rating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Insulin.Image" class="control-label"></label>
+                <input asp-for="Insulin.Image" class="form-control" />
+                <span asp-validation-for="Insulin.Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @if (!string.IsNullOrEmpty(Model.Insulin.Image))
+                {
+                    <img src=~/Images/@Model.Insulin.Image
+                         alt="NoSuchFile" width="150" />
+                }
+                else
+                {
+                    <h4>Файл изображения не задан</h4>
+                }
+                <div class="custom-file mt-3">
+                    <input type="file" class="custom-file-input" asp-for="Image" id="customFile">
+                    <label class="custom-file-label" for="customFile">Выберите файл изображения</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Insulin.InsulinGroupId" class="control-label"></label>
+                <select asp-for="Insulin.InsulinGroupId" class="form-control" asp-items="ViewBag.GameGroupId"></select>
+                <span asp-validation-for="Insulin.InsulinGroupId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+@section Scripts{
+    <script src="~/lib/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+    <script>
+        bsCustomFileInput.init();
+    </script>
+}
+
+

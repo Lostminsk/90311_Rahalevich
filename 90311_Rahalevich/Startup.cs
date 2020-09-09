@@ -14,6 +14,10 @@ using Microsoft.Extensions.Hosting;
 using _90311_Rahalevich.DAL.Data;
 using _90311_Rahalevich.DAL.Entities;
 using _90311_Rahalevich.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using _90311_Rahalevich.Models;
+using Web_Yaskevich_90311.Services;
 
 namespace _90311_Rahalevich
 {
@@ -29,6 +33,17 @@ namespace _90311_Rahalevich
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+            services.AddSession(opt =>
+            {
+                opt.Cookie.HttpOnly = true;
+                opt.Cookie.IsEssential = true;
+            });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();                     
+            services.AddScoped<Cart>(sp => CartService.GetCart(sp));
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -45,7 +60,6 @@ namespace _90311_Rahalevich
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext context,
@@ -72,6 +86,7 @@ namespace _90311_Rahalevich
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

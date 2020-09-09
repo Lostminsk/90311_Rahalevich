@@ -9,6 +9,8 @@ namespace _90311_Rahalevich.DAL.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Insulin> Insulins { get; set; }
+        public DbSet<InsulinGroup> InsulinGroups { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

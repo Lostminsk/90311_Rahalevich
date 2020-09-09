@@ -46,6 +46,37 @@ namespace _90311_Rahalevich.Services
                 admin = await userManager.FindByEmailAsync("admin@mail.ru");
                 await userManager.AddToRoleAsync(admin, "admin");
             }
+            //проверка наличия групп объектов
+            if (!context.InsulinGroups.Any())
+            {
+                context.InsulinGroups.AddRange(
+                new List<InsulinGroup>
+                {
+                new InsulinGroup {GroupName="Fast"},
+                new InsulinGroup {GroupName="Very fast"},
+                new InsulinGroup {GroupName="Long"},
+                new InsulinGroup {GroupName="Very long"},
+                new InsulinGroup {GroupName="Slow"},
+                new InsulinGroup {GroupName="Normal"}
+                });
+                await context.SaveChangesAsync();
+            }
+            // проверка наличия объектов
+            if (!context.Insulins.Any())
+            {
+                context.Insulins.AddRange(
+                new List<Insulin>
+                {
+                new Insulin {InsulinName = "Novorapid", Publisher = "NovoNordisk", Rating = 8, InsulinGroupId = 1, Image = "novorapid.jpg" },
+                new Insulin {InsulinName = "Fiasp", Publisher = "NovoNordisk", Rating = 7, InsulinGroupId = 2, Image = "fiasp.jpg" },
+                new Insulin {InsulinName = "Levemir", Publisher = "NovoNordisk", Rating = 6, InsulinGroupId = 3, Image = "levemir.jpg" },
+                new Insulin {InsulinName = "Tresiba", Publisher = "NovoNordisk", Rating = 9, InsulinGroupId = 4, Image = "tresiba.jpg" },
+                new Insulin {InsulinName = "Apidra", Publisher = "Sanofi", Rating = 10, InsulinGroupId = 2, Image = "apidra.jpg" },
+                new Insulin {InsulinName = "Lantus", Publisher = "Sanofi", Rating = 6, InsulinGroupId = 5, Image = "lantus.jpg" },
+                new Insulin {InsulinName = "Tudgeo", Publisher = "Sanofi", Rating = 9, InsulinGroupId = 6, Image = "tudgeo.jpg" }
+                });
+                await context.SaveChangesAsync();
+            }
         }
     }
 }
