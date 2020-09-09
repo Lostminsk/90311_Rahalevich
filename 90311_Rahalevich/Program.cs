@@ -21,6 +21,11 @@ namespace _90311_Rahalevich
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+            .ConfigureLogging(lp =>
+            {
+                lp.ClearProviders();
+                lp.AddFilter("Microsoft", LogLevel.None);
+            });
     }
 }

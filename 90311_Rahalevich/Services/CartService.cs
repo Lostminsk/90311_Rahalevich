@@ -10,7 +10,7 @@ using _90311_Rahalevich.Extensions;
 using _90311_Rahalevich.Models;
 using _90311_Rahalevich.DAL.Extensions;
 
-namespace Web_Yaskevich_90311.Services
+namespace _90311_Rahalevich.Services
 {
     public class CartService : Cart
     {

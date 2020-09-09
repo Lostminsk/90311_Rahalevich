@@ -17,7 +17,9 @@ using _90311_Rahalevich.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using _90311_Rahalevich.Models;
-using Web_Yaskevich_90311.Services;
+using _90311_Rahalevich.Services;
+using Microsoft.Extensions.Logging;
+using _90311_Rahalevich.Extensions;
 
 namespace _90311_Rahalevich
 {
@@ -63,8 +65,10 @@ namespace _90311_Rahalevich
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext context,
-            UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+            UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ILoggerFactory logger)
         {
+            logger.AddFile("Logs/log-{Date}.txt");
+
             DbInitializer.Seed(context, userManager, roleManager)
                     .GetAwaiter()
                     .GetResult();
@@ -79,6 +83,8 @@ namespace _90311_Rahalevich
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseFileLogging();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

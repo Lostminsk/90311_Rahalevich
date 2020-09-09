@@ -7,6 +7,7 @@ using _90311_Rahalevich.DAL.Entities;
 using _90311_Rahalevich.Models;
 using _90311_Rahalevich.Extensions;
 using _90311_Rahalevich.DAL.Data;
+using Microsoft.Extensions.Logging;
 
 namespace _90311_Rahalevich.Controllers
 {
@@ -14,15 +15,20 @@ namespace _90311_Rahalevich.Controllers
     {
         ApplicationDbContext _context;
         int _pageSize;
-        public ProductController(ApplicationDbContext context)
+        private ILogger _logger;
+        public ProductController(ApplicationDbContext context, ILogger<ProductController> logger)
         {
             _pageSize = 3;
             _context = context;
+            _logger = logger;
         }
         [Route("Catalog")]
         [Route("Catalog/Page_{pageNo}")]
         public IActionResult Index(int? group, int pageNo = 1)
         {
+            var groupMame = group.HasValue ? _context.InsulinGroups.Find(group.Value)?.GroupName : "all groups";
+            _logger.LogInformation($"info: group={group}, page={pageNo}");
+
             var insulinsFiltered = _context.Insulins.Where(d => !group.HasValue || d.InsulinGroupId == group.Value);
 
             // Поместить список групп во ViewData
