@@ -1,0 +1,8 @@
+2020-09-10T00:06:23.4799735+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-09-10T00:06:23.4860618+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-09-10T00:06:23.4861543+03:00  [INF] Content root path: "E:\ПОИС\Триместр 4\ВЕБ\90311\Лабы\90311_Rahalevich\90311_Rahalevich" (b5d60022)
+2020-09-10T00:06:30.9588252+03:00  [INF] info: group=, page=1 (85a87afb)
+2020-09-10T00:06:32.0495130+03:00  [INF] info: group=, page=1 (85a87afb)
+2020-09-10T00:06:45.0088131+03:00  [INF] info: group=, page=2 (74d4d954)
+2020-09-10T00:06:47.2819208+03:00  [INF] info: group=, page=3 (61aab300)
+2020-09-10T00:07:01.0905514+03:00  [INF] Request /lib/bs-custom-file-input/dist/bs-custom-file-input.js returns status code 304 (3df068ed)
